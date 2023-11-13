@@ -1,4 +1,15 @@
 ﻿@page "/"
+@using MySqlTest.Data
+@inject IAuthUserRepository _authUserRepository
+
+@code {
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        _authUserRepository.GetAllAsync(CancellationToken.None);
+    }
+}
 
 <PageTitle>Index</PageTitle>
 

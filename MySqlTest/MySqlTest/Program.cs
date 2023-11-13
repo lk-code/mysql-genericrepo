@@ -1,12 +1,24 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
 using MySqlTest.Data;
+using TanvirArjel.EFCore.GenericRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+// MySQL
+string connectionString = "CONNECTION_STRING";
+builder.Services.AddDbContext<DatabaseContext>(options =>
+{
+    options.UseMySQL(connectionString);
+});
+builder.Services.AddGenericRepository<DatabaseContext>();
+        
+// Register Services
+builder.Services.AddScoped<IAuthUserRepository, AuthUserRepository>();
+
 builder.Services.AddSingleton<WeatherForecastService>();
 
 var app = builder.Build();
